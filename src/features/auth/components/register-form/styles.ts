@@ -4,6 +4,12 @@ import { colors, spacing, typography } from '@/styles';
 const { width, height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
+  // Safe Area
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  
   // Container principal
   keyboardView: {
     flex: 1,
@@ -12,7 +18,7 @@ export const styles = StyleSheet.create({
   
   scrollContainer: {
     flexGrow: 1,
-    minHeight: height,
+    minHeight: height * 0.8, // Garante que o conteúdo ocupe pelo menos 80% da altura
     backgroundColor: colors.background,
   },
   
@@ -21,15 +27,19 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.xxl,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.xl,
     backgroundColor: colors.background,
+    minHeight: height * 0.8,
   },
   
   // Header com logo
   headerContainer: {
     alignItems: 'center',
-    marginBottom: spacing.xxl,
+    marginBottom: spacing.xl,
+    flex: 1,
+    justifyContent: 'center',
+    maxHeight: height * 0.3, // Limita a altura do header
   },
   
   logoContainer: {
@@ -38,44 +48,41 @@ export const styles = StyleSheet.create({
   },
   
   logoImage: {
-    width: 200,
-    height: 80,
+    width: Math.min(width * 0.6, 200), // Responsivo: 60% da largura ou máximo 200px
+    height: Math.min(width * 0.24, 80), // Mantém proporção 2.5:1
   },
   
   subtitleText: {
-    fontSize: 18,
+    fontSize: Math.max(16, width * 0.04), // Responsivo: mínimo 16px ou 4% da largura
     color: colors.text,
     textAlign: 'center',
     opacity: 0.8,
     fontWeight: '500',
+    paddingHorizontal: spacing.md,
   },
   
   // Container do formulário
   formContainer: {
     width: '100%',
-    maxWidth: 400,
-    backgroundColor: colors.background,
-    borderRadius: 20,
-    padding: spacing.xl,
-    shadowColor: colors.text,
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
+    maxWidth: Math.min(width * 0.9, 400), // Responsivo: 90% da largura ou máximo 400px
+    backgroundColor: 'transparent',
+    borderRadius: 0,
+    padding: spacing.lg,
+    flex: 1,
+    justifyContent: 'center',
+    maxHeight: height * 0.6, // Limita a altura do formulário (maior que login por ter mais campos)
   },
   
   // Inputs
   input: {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   
   // Botão de registro
   registerButton: {
     borderRadius: 12,
     backgroundColor: colors.primary,
-    paddingVertical: spacing.lg,
+    paddingVertical: spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: spacing.lg,
@@ -85,6 +92,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
     elevation: 5,
+    minHeight: 48,
   },
   
   registerButtonDisabled: {
@@ -92,7 +100,7 @@ export const styles = StyleSheet.create({
   },
   
   registerButtonText: {
-    fontSize: 18,
+    fontSize: Math.max(16, width * 0.04), // Responsivo
     fontWeight: 'bold',
     color: colors.background,
     letterSpacing: 0.5,
@@ -120,15 +128,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: spacing.lg,
+    flexWrap: 'wrap',
   },
   
   loginText: {
-    fontSize: 16,
+    fontSize: Math.max(14, width * 0.035), // Responsivo
     color: colors.textSecondary,
   },
   
   loginLink: {
-    fontSize: 16,
+    fontSize: Math.max(14, width * 0.035), // Responsivo
     color: colors.primary,
     fontWeight: '600',
     textDecorationLine: 'underline',
@@ -136,15 +145,19 @@ export const styles = StyleSheet.create({
   
   // Footer
   footerContainer: {
-    marginTop: spacing.xxl,
+    marginTop: spacing.lg,
     alignItems: 'center',
+    flex: 1,
+    justifyContent: 'flex-end',
+    maxHeight: height * 0.2, // Limita a altura do footer
   },
   
   footerText: {
-    fontSize: 14,
+    fontSize: Math.max(12, width * 0.03), // Responsivo
     color: colors.textSecondary,
     opacity: 0.8,
     textAlign: 'center',
     fontStyle: 'italic',
+    paddingHorizontal: spacing.md,
   },
 }); 

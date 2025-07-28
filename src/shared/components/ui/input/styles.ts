@@ -23,8 +23,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     height: 56,
     backgroundColor: colors.backgroundLight,
-    borderWidth: 2,
-    borderColor: colors.border,
+    borderWidth: 0,
     borderRadius: 12,
     paddingHorizontal: spacing.lg,
     fontSize: 16,
@@ -41,7 +40,6 @@ export const styles = StyleSheet.create({
   },
   
   inputFocused: {
-    borderColor: colors.primary,
     backgroundColor: colors.background,
     shadowColor: colors.primary,
     shadowOpacity: 0.15,
@@ -51,7 +49,6 @@ export const styles = StyleSheet.create({
   },
   
   inputError: {
-    borderColor: colors.error,
     backgroundColor: colors.error + '05',
   },
   
