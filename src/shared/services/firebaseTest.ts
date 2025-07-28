@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getAuth, signInAnonymously, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, collection, getDocs, doc, setDoc } from 'firebase/firestore';
 
-// Configuração do Firebase
+// Configuração do Firebase - Mesma do firebase.ts
 const firebaseConfig = {
   apiKey: "AIzaSyCjM0OuG8hJysGa_qfQhCUseFbmdo4pf-4",
   authDomain: "leve-saude-app-4ce85.firebaseapp.com",
@@ -74,6 +74,76 @@ export const testFirebaseConnection = async () => {
       success: false,
       message: 'Falha na conexão com Firebase',
       error: error
+    };
+  }
+};
+
+// Função específica para testar registro de usuários
+export const testUserRegistration = async () => {
+  try {
+    console.log('🧪 Iniciando teste de registro de usuário...');
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // Dados de teste
+    const testUser = {
+      name: 'Usuário Teste',
+      email: `teste${Date.now()}@exemplo.com`,
+      password: 'senha123456'
+    };
+    
+    console.log('📝 Dados de teste:', { ...testUser, password: '***' });
+    
+    // 1. Criar usuário no Firebase Auth
+    console.log('🔐 Criando usuário no Firebase Auth...');
+    const userCredential = await createUserWithEmailAndPassword(
+      auth, 
+      testUser.email, 
+      testUser.password
+    );
+    const firebaseUser = userCredential.user;
+    console.log('✅ Usuário criado no Firebase Auth:', firebaseUser.uid);
+    
+    // 2. Criar documento no Firestore
+    console.log('📊 Criando documento no Firestore...');
+    const userData = {
+      name: testUser.name,
+      email: testUser.email,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    
+    await setDoc(doc(db, 'users', firebaseUser.uid), userData);
+    console.log('✅ Documento criado no Firestore');
+    
+    // 3. Verificar se o documento foi criado
+    console.log('🔍 Verificando documento criado...');
+    const userDoc = await getDocs(collection(db, 'users'));
+    console.log(`✅ Documentos na coleção users: ${userDoc.size}`);
+    
+    // 4. Fazer logout e limpar
+    console.log('🚪 Fazendo logout do usuário de teste...');
+    await auth.signOut();
+    console.log('✅ Logout realizado');
+    
+    console.log('🎉 Teste de registro concluído com sucesso!');
+    return {
+      success: true,
+      message: 'Registro de usuário funcionando corretamente',
+      userId: firebaseUser.uid,
+      email: testUser.email
+    };
+    
+  } catch (error: any) {
+    console.error('❌ Erro no teste de registro:', error.message);
+    console.error('❌ Código do erro:', error.code);
+    return {
+      success: false,
+      message: 'Falha no teste de registro',
+      error: error.message,
+      code: error.code
     };
   }
 };

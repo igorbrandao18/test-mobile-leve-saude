@@ -29,22 +29,36 @@ const RegisterForm = () => {
   const navigation = useNavigation();
 
   const handleRegister = () => {
+    console.log('📝 RegisterForm: Iniciando processo de registro...');
+    console.log('📝 RegisterForm: Dados do formulário:', { name, email, password: '***', confirmPassword: '***' });
+    
     if (!name || !email || !password || !confirmPassword) {
+      console.log('❌ RegisterForm: Campos obrigatórios não preenchidos');
       Alert.alert('Atenção', 'Por favor, preencha todos os campos');
       return;
     }
     
     if (password !== confirmPassword) {
+      console.log('❌ RegisterForm: Senhas não coincidem');
       Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
     
+    console.log('✅ RegisterForm: Validações passaram, chamando função de registro...');
     register(name, email, password);
   };
 
   const handleLogin = () => {
+    console.log('🔄 RegisterForm: Navegando para tela de login...');
     navigation.navigate('Login' as never);
   };
+
+  // Log quando há erro
+  React.useEffect(() => {
+    if (error) {
+      console.log('❌ RegisterForm: Erro recebido:', error);
+    }
+  }, [error]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
